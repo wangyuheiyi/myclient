@@ -7,6 +7,8 @@ public final class BaseBean {
   private BaseBean() {}
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
+    registry.add(com.bean.BaseBean.cgPlayerCheckLogin);
+    registry.add(com.bean.BaseBean.gcPlayerCheckLogin);
     registry.add(com.bean.BaseBean.missionInfo);
     registry.add(com.bean.BaseBean.missionReward);
   }
@@ -131,31 +133,49 @@ public final class BaseBean {
     public enum Type
         implements com.google.protobuf.ProtocolMessageEnum {
       /**
-       * <code>MISSIONINFO = 0;</code>
+       * <code>CGPLAYERCHECKLOGIN = 1;</code>
        */
-      MISSIONINFO(0, 0),
+      CGPLAYERCHECKLOGIN(0, 1),
       /**
-       * <code>MISSIONREWARD = 1;</code>
+       * <code>GCPLAYERCHECKLOGIN = 2;</code>
        */
-      MISSIONREWARD(1, 1),
+      GCPLAYERCHECKLOGIN(1, 2),
+      /**
+       * <code>MISSIONINFO = 3;</code>
+       */
+      MISSIONINFO(2, 3),
+      /**
+       * <code>MISSIONREWARD = 4;</code>
+       */
+      MISSIONREWARD(3, 4),
       ;
 
       /**
-       * <code>MISSIONINFO = 0;</code>
+       * <code>CGPLAYERCHECKLOGIN = 1;</code>
        */
-      public static final int MISSIONINFO_VALUE = 0;
+      public static final int CGPLAYERCHECKLOGIN_VALUE = 1;
       /**
-       * <code>MISSIONREWARD = 1;</code>
+       * <code>GCPLAYERCHECKLOGIN = 2;</code>
        */
-      public static final int MISSIONREWARD_VALUE = 1;
+      public static final int GCPLAYERCHECKLOGIN_VALUE = 2;
+      /**
+       * <code>MISSIONINFO = 3;</code>
+       */
+      public static final int MISSIONINFO_VALUE = 3;
+      /**
+       * <code>MISSIONREWARD = 4;</code>
+       */
+      public static final int MISSIONREWARD_VALUE = 4;
 
 
       public final int getNumber() { return value; }
 
       public static Type valueOf(int value) {
         switch (value) {
-          case 0: return MISSIONINFO;
-          case 1: return MISSIONREWARD;
+          case 1: return CGPLAYERCHECKLOGIN;
+          case 2: return GCPLAYERCHECKLOGIN;
+          case 3: return MISSIONINFO;
+          case 4: return MISSIONREWARD;
           default: return null;
         }
       }
@@ -225,7 +245,7 @@ public final class BaseBean {
     }
 
     private void initFields() {
-      type_ = com.bean.BaseBean.BaseMessage.Type.MISSIONINFO;
+      type_ = com.bean.BaseBean.BaseMessage.Type.CGPLAYERCHECKLOGIN;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -384,7 +404,7 @@ public final class BaseBean {
 
       public Builder clear() {
         super.clear();
-        type_ = com.bean.BaseBean.BaseMessage.Type.MISSIONINFO;
+        type_ = com.bean.BaseBean.BaseMessage.Type.CGPLAYERCHECKLOGIN;
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
@@ -474,7 +494,7 @@ public final class BaseBean {
       private int bitField0_;
 
       // required .bean.BaseMessage.Type type = 1;
-      private com.bean.BaseBean.BaseMessage.Type type_ = com.bean.BaseBean.BaseMessage.Type.MISSIONINFO;
+      private com.bean.BaseBean.BaseMessage.Type type_ = com.bean.BaseBean.BaseMessage.Type.CGPLAYERCHECKLOGIN;
       /**
        * <code>required .bean.BaseMessage.Type type = 1;</code>
        */
@@ -504,7 +524,7 @@ public final class BaseBean {
        */
       public Builder clearType() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        type_ = com.bean.BaseBean.BaseMessage.Type.MISSIONINFO;
+        type_ = com.bean.BaseBean.BaseMessage.Type.CGPLAYERCHECKLOGIN;
         onChanged();
         return this;
       }
@@ -520,7 +540,29 @@ public final class BaseBean {
     // @@protoc_insertion_point(class_scope:bean.BaseMessage)
   }
 
-  public static final int MISSIONINFO_FIELD_NUMBER = 100;
+  public static final int CGPLAYERCHECKLOGIN_FIELD_NUMBER = 100;
+  /**
+   * <code>extend .bean.BaseMessage { ... }</code>
+   */
+  public static final
+    com.google.protobuf.GeneratedMessage.GeneratedExtension<
+      com.bean.BaseBean.BaseMessage,
+      com.bean.PlayerBean.CGPlayerCheckLogin> cgPlayerCheckLogin = com.google.protobuf.GeneratedMessage
+          .newFileScopedGeneratedExtension(
+        com.bean.PlayerBean.CGPlayerCheckLogin.class,
+        com.bean.PlayerBean.CGPlayerCheckLogin.getDefaultInstance());
+  public static final int GCPLAYERCHECKLOGIN_FIELD_NUMBER = 101;
+  /**
+   * <code>extend .bean.BaseMessage { ... }</code>
+   */
+  public static final
+    com.google.protobuf.GeneratedMessage.GeneratedExtension<
+      com.bean.BaseBean.BaseMessage,
+      com.bean.PlayerBean.GCPlayerCheckLogin> gcPlayerCheckLogin = com.google.protobuf.GeneratedMessage
+          .newFileScopedGeneratedExtension(
+        com.bean.PlayerBean.GCPlayerCheckLogin.class,
+        com.bean.PlayerBean.GCPlayerCheckLogin.getDefaultInstance());
+  public static final int MISSIONINFO_FIELD_NUMBER = 200;
   /**
    * <code>extend .bean.BaseMessage { ... }</code>
    */
@@ -531,7 +573,7 @@ public final class BaseBean {
           .newFileScopedGeneratedExtension(
         com.bean.MissionBean.MissionInfo.class,
         com.bean.MissionBean.MissionInfo.getDefaultInstance());
-  public static final int MISSIONREWARD_FIELD_NUMBER = 101;
+  public static final int MISSIONREWARD_FIELD_NUMBER = 201;
   /**
    * <code>extend .bean.BaseMessage { ... }</code>
    */
@@ -556,14 +598,19 @@ public final class BaseBean {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rmessage.proto\022\004bean\032\rmission.proto\"i\n\013" +
-      "BaseMessage\022$\n\004type\030\001 \002(\0162\026.bean.BaseMes" +
-      "sage.Type\"*\n\004Type\022\017\n\013MISSIONINFO\020\000\022\021\n\rMI" +
-      "SSIONREWARD\020\001*\010\010d\020\200\200\200\200\002:9\n\013missionInfo\022\021" +
-      ".bean.BaseMessage\030d \001(\0132\021.bean.MissionIn" +
-      "fo:=\n\rmissionReward\022\021.bean.BaseMessage\030e" +
-      " \001(\0132\023.bean.MissionRewardB\024\n\010com.beanB\010B" +
-      "aseBean"
+      "\n\rmessage.proto\022\004bean\032\rmission.proto\032\014pl" +
+      "ayer.proto\"\231\001\n\013BaseMessage\022$\n\004type\030\001 \002(\016" +
+      "2\026.bean.BaseMessage.Type\"Z\n\004Type\022\026\n\022CGPL" +
+      "AYERCHECKLOGIN\020\001\022\026\n\022GCPLAYERCHECKLOGIN\020\002" +
+      "\022\017\n\013MISSIONINFO\020\003\022\021\n\rMISSIONREWARD\020\004*\010\010d" +
+      "\020\200\200\200\200\002:G\n\022cgPlayerCheckLogin\022\021.bean.Base" +
+      "Message\030d \001(\0132\030.bean.CGPlayerCheckLogin:" +
+      "G\n\022gcPlayerCheckLogin\022\021.bean.BaseMessage" +
+      "\030e \001(\0132\030.bean.GCPlayerCheckLogin::\n\013miss" +
+      "ionInfo\022\021.bean.BaseMessage\030\310\001 \001(\0132\021.bean",
+      ".MissionInfo:>\n\rmissionReward\022\021.bean.Bas" +
+      "eMessage\030\311\001 \001(\0132\023.bean.MissionRewardB\024\n\010" +
+      "com.beanB\010BaseBean"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -576,8 +623,10 @@ public final class BaseBean {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_bean_BaseMessage_descriptor,
               new java.lang.String[] { "Type", });
-          missionInfo.internalInit(descriptor.getExtensions().get(0));
-          missionReward.internalInit(descriptor.getExtensions().get(1));
+          cgPlayerCheckLogin.internalInit(descriptor.getExtensions().get(0));
+          gcPlayerCheckLogin.internalInit(descriptor.getExtensions().get(1));
+          missionInfo.internalInit(descriptor.getExtensions().get(2));
+          missionReward.internalInit(descriptor.getExtensions().get(3));
           return null;
         }
       };
@@ -585,6 +634,7 @@ public final class BaseBean {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.bean.MissionBean.getDescriptor(),
+          com.bean.PlayerBean.getDescriptor(),
         }, assigner);
   }
 
