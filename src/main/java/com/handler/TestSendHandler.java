@@ -1,8 +1,10 @@
 package com.handler;
 
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
+import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 
 import com.bean.AddressBookProtos.Person;
 import com.bean.BaseBean;
@@ -32,7 +34,8 @@ public class TestSendHandler extends ChannelOutboundHandlerAdapter{
 			myMessage.setExtension(BaseBean.cgPlayerCheckLogin, cgPlayerCheckLogin.build());
 //			gcPlayerCheckLogin.get
 		}
-		
+//		BinaryWebSocketFrame message=new BinaryWebSocketFrame((ByteBuf)msg);
+//        ctx.writeAndFlush(message);
         ctx.writeAndFlush(myMessage.build());
     }
 }

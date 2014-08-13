@@ -95,8 +95,7 @@ public class WebSocketClient {
                 } else if("send".equals(msg.toLowerCase())){
                 	ch.writeAndFlush(msg);
                 }else {
-                    WebSocketFrame frame = new TextWebSocketFrame(msg);
-                    ch.writeAndFlush(frame);
+                	ch.writeAndFlush(msg.toLowerCase());
                 }
             }
         } finally {

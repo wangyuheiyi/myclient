@@ -7,6 +7,7 @@ import io.netty.channel.ChannelPromise;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.ChannelInputShutdownEvent;
 import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.PongWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
@@ -68,6 +69,9 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object>{
 	        } else if (frame instanceof CloseWebSocketFrame) {
 	            System.out.println("WebSocket Client received closing");
 	            ch.close();
+	        }else if(frame instanceof BinaryWebSocketFrame)
+	        {
+	        	ctx.fireChannelRead(frame.content().retain());
 	        }
 	    }
 	    
