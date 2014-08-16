@@ -14,17 +14,25 @@ import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.WebSocket13FrameEncoder;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshakerFactory;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketVersion;
+import io.netty.handler.codec.protobuf.ProtobufDecoder;
+import io.netty.handler.codec.protobuf.ProtobufEncoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URI;
 
-import com.handler.MessageSendHandler;
+import com.bean.BaseBean;
+import com.google.protobuf.ExtensionRegistry;
+import com.handler.TestReadHandler;
+import com.handler.TestSendHandler;
 import com.handler.WebSocketClientHandler;
+import com.handler.WebSocketSendHandler;
 
 
 public class WebSocketClient {
@@ -63,16 +71,22 @@ public class WebSocketClient {
                                     uri, WebSocketVersion.V13, null, false, new DefaultHttpHeaders()));
 
             Bootstrap b = new Bootstrap();
+           
             b.group(group)
              .channel(NioSocketChannel.class)
              .handler(new ChannelInitializer<SocketChannel>() {
                  @Override
                  protected void initChannel(SocketChannel ch) {
                      ChannelPipeline p = ch.pipeline();
+                     ExtensionRegistry registry = ExtensionRegistry.newInstance();
+                     BaseBean.registerAllExtensions(registry);
                      p.addLast(
                              new HttpClientCodec(),
                              new HttpObjectAggregator(8192),
-                             handler,new MessageSendHandler());
+                             handler,new WebSocket13FrameEncoder(true),new WebSocketSendHandler(),
+                             new ProtobufVarint32LengthFieldPrepender(),new ProtobufEncoder(),
+                             new ProtobufVarint32FrameDecoder(),new ProtobufDecoder(BaseBean.BaseMessage.getDefaultInstance(),registry),
+                             new TestSendHandler(),new TestReadHandler());
 //                             new ProtobufVarint32LengthFieldPrepender(),new ProtobufEncoder(),new MessageSendHandler());
                  }
              });
