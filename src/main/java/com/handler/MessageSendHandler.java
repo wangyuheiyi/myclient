@@ -8,7 +8,7 @@ import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 
-import com.bean.BaseBean;
+import com.common.msg.BaseBean;
 import com.google.protobuf.ExtensionRegistry;
 
 public class MessageSendHandler extends SimpleChannelInboundHandler<Object>{

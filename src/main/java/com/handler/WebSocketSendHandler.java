@@ -13,14 +13,15 @@ public class WebSocketSendHandler extends ChannelOutboundHandlerAdapter{
 	@Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
 		if (!(msg instanceof FullHttpRequest)) {
-			WebSocketFrame frame =(WebSocketFrame) msg;
-			if (frame instanceof TextWebSocketFrame) {
-				ctx.writeAndFlush(frame);
-			}else{
+			if(msg instanceof ByteBuf){
 				BinaryWebSocketFrame message=new BinaryWebSocketFrame((ByteBuf)msg);
 		        ctx.writeAndFlush(message);
+			}else{
+				WebSocketFrame frame =(WebSocketFrame) msg;
+				if (frame instanceof TextWebSocketFrame) {
+					ctx.writeAndFlush(frame);
+				}
 			}
-			
         }else{
         	ctx.writeAndFlush(msg);
         }

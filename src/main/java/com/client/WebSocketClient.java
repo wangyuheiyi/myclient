@@ -27,7 +27,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URI;
 
-import com.bean.BaseBean;
+import com.common.msg.BaseBean;
 import com.google.protobuf.ExtensionRegistry;
 import com.handler.TestReadHandler;
 import com.handler.TestSendHandler;
