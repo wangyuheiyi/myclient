@@ -9,6 +9,7 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import com.common.msg.BaseBean;
 import com.common.msg.BaseBean.BaseMessage;
 import com.common.msg.MissionBean.MissionInfo;
+import com.common.msg.PlayerBean.CGGetRoleList;
 import com.common.msg.PlayerBean.CGPlayerCheckLogin;
 
 public class TestSendHandler extends ChannelOutboundHandlerAdapter{
@@ -34,6 +35,12 @@ public class TestSendHandler extends ChannelOutboundHandlerAdapter{
 				myMessage.setType(BaseMessage.Type.GLOBALMESSAGE);
 				myMessage.setExtension(BaseBean.cgPlayerCheckLogin, cgPlayerCheckLogin.build());
 	//			gcPlayerCheckLogin.get
+			}else if(infos[0].equals("getRole")){
+				CGGetRoleList.Builder cgGetRoleList=CGGetRoleList.newBuilder();
+				cgGetRoleList.setPlayerId(Integer.parseInt(infos[1]));
+				myMessage.setMessageCode(BaseMessage.MessageCode.CGGETROLELIST);
+				myMessage.setType(BaseMessage.Type.GLOBALMESSAGE);
+				myMessage.setExtension(BaseBean.cgGetRoleList, cgGetRoleList.build());
 			}else if(infos[0].equals("send")){
 				TextWebSocketFrame tmessage=new TextWebSocketFrame((String)msg);
 				ctx.writeAndFlush(tmessage);

@@ -5,6 +5,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 
 import com.common.msg.BaseBean;
 import com.common.msg.BaseBean.BaseMessage;
+import com.common.msg.PlayerBean.GCGetRoleList;
 import com.common.msg.PlayerBean.GCPlayerCheckLogin;
 
 public class TestReadHandler extends SimpleChannelInboundHandler<Object>{
@@ -18,6 +19,17 @@ public class TestReadHandler extends SimpleChannelInboundHandler<Object>{
 		case GCPLAYERCHECKLOGIN:
 			GCPlayerCheckLogin gcPlayerCheckLogin=baseBean.getExtension(BaseBean.gcPlayerCheckLogin);
 			System.out.println(gcPlayerCheckLogin.getPlayerId());
+			ctx.channel().writeAndFlush("getRole,"+gcPlayerCheckLogin.getPlayerId());
+			break;
+		case GCGETROLELIST:
+			GCGetRoleList gcGetRoleList=baseBean.getExtension(BaseBean.gcGetRoleList);
+			System.out.println(gcGetRoleList.getPlayerId());
+			if(gcGetRoleList.getHumanInfoList()!=null){
+				System.out.println(gcGetRoleList.getHumanInfoCount());
+			}else{
+				System.out.println("null");
+			}
+			
 			break;
 		}
 	}
