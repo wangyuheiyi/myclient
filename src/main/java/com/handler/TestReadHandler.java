@@ -26,6 +26,7 @@ public class TestReadHandler extends SimpleChannelInboundHandler<Object>{
 			System.out.println(gcGetRoleList.getPlayerId());
 			if(gcGetRoleList.getHumanInfoList()!=null){
 				System.out.println(gcGetRoleList.getHumanInfoCount());
+				ctx.channel().writeAndFlush("creatRole,"+gcGetRoleList.getPlayerId()+",1");
 			}else{
 				System.out.println("null");
 			}
