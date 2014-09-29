@@ -30,7 +30,7 @@ public class TestSendHandler extends ChannelOutboundHandlerAdapter{
 				myMessage.setExtension(BaseBean.missionInfo, missionInfo.build());
 			}else if(infos[0].equals("login")){
 				CGPlayerCheckLogin.Builder cgPlayerCheckLogin=CGPlayerCheckLogin.newBuilder();
-				cgPlayerCheckLogin.setPlayerId(Integer.parseInt(infos[1]));
+				cgPlayerCheckLogin.setPlayerId(Long.parseLong(infos[1]));
 				cgPlayerCheckLogin.setUserCode("");
 				myMessage.setMessageCode(BaseMessage.MessageCode.CGPLAYERCHECKLOGIN);
 				myMessage.setType(BaseMessage.Type.GLOBALMESSAGE);
@@ -38,13 +38,13 @@ public class TestSendHandler extends ChannelOutboundHandlerAdapter{
 	//			gcPlayerCheckLogin.get
 			}else if(infos[0].equals("getRole")){
 				CGGetRoleList.Builder cgGetRoleList=CGGetRoleList.newBuilder();
-				cgGetRoleList.setPlayerId(Integer.parseInt(infos[1]));
+				cgGetRoleList.setPlayerId(Long.parseLong(infos[1]));
 				myMessage.setMessageCode(BaseMessage.MessageCode.CGGETROLELIST);
 				myMessage.setType(BaseMessage.Type.GLOBALMESSAGE);
 				myMessage.setExtension(BaseBean.cgGetRoleList, cgGetRoleList.build());
 			}else if(infos[0].equals("creatRole")){
 				CGCreateRole.Builder cgCreatRole=CGCreateRole.newBuilder();
-				cgCreatRole.setPlayerId(Integer.parseInt(infos[1]));
+				cgCreatRole.setPlayerId(Long.parseLong(infos[1]));
 				cgCreatRole.setAvatar(Integer.parseInt(infos[2]));
 				myMessage.setMessageCode(BaseMessage.MessageCode.CGCREATEROLE);
 				myMessage.setType(BaseMessage.Type.GLOBALMESSAGE);

@@ -24,11 +24,10 @@ public class TestReadHandler extends SimpleChannelInboundHandler<Object>{
 		case GCGETROLELIST:
 			GCGetRoleList gcGetRoleList=baseBean.getExtension(BaseBean.gcGetRoleList);
 			System.out.println(gcGetRoleList.getPlayerId());
-			if(gcGetRoleList.getHumanInfoList()!=null){
+			if(gcGetRoleList.getHumanInfoList()!=null&&gcGetRoleList.getHumanInfoList().size()!=0){
 				System.out.println(gcGetRoleList.getHumanInfoCount());
-				ctx.channel().writeAndFlush("creatRole,"+gcGetRoleList.getPlayerId()+",1");
 			}else{
-				System.out.println("null");
+				ctx.channel().writeAndFlush("creatRole,"+gcGetRoleList.getPlayerId()+",1");
 			}
 			
 			break;
