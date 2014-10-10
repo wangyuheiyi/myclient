@@ -5,8 +5,11 @@ import io.netty.channel.SimpleChannelInboundHandler;
 
 import com.common.msg.BaseBean;
 import com.common.msg.BaseBean.BaseMessage;
+import com.common.msg.PlayerBean.GCCreateRole;
+import com.common.msg.PlayerBean.GCEnterScene;
 import com.common.msg.PlayerBean.GCGetRoleList;
 import com.common.msg.PlayerBean.GCPlayerCheckLogin;
+import com.common.msg.PlayerBean.HumanInfo;
 
 public class TestReadHandler extends SimpleChannelInboundHandler<Object>{
 
@@ -14,6 +17,7 @@ public class TestReadHandler extends SimpleChannelInboundHandler<Object>{
 	protected void channelRead0(ChannelHandlerContext ctx, Object msg)
 			throws Exception {
 		System.out.println("end");
+		HumanInfo humanInfo=null;
 		BaseMessage baseBean=(BaseMessage)msg;
 		switch (baseBean.getMessageCode()) {
 		case GCPLAYERCHECKLOGIN:
@@ -26,10 +30,23 @@ public class TestReadHandler extends SimpleChannelInboundHandler<Object>{
 			System.out.println(gcGetRoleList.getPlayerId());
 			if(gcGetRoleList.getHumanInfoList()!=null&&gcGetRoleList.getHumanInfoList().size()!=0){
 				System.out.println(gcGetRoleList.getHumanInfoCount());
+				humanInfo=gcGetRoleList.getHumanInfo(0);
+				System.out.println("roleId:"+humanInfo.getRoleId());
+				ctx.channel().writeAndFlush("selectRole,"+gcGetRoleList.getPlayerId()+","+humanInfo.getRoleId());
 			}else{
 				ctx.channel().writeAndFlush("creatRole,"+gcGetRoleList.getPlayerId()+",1");
 			}
-			
+			break;
+		case GCCREATEROLE:
+			GCCreateRole gcCreateRole=baseBean.getExtension(BaseBean.gcCreateRole);
+			System.out.println("createRole playId:" + gcCreateRole.getPlayerId());
+			humanInfo=gcCreateRole.getHumanInfo();
+			System.out.println("createRole HumanId:" + humanInfo.getRoleId());
+			break;
+		case GCENTERSCENE:
+			GCEnterScene gcEnterScene=baseBean.getExtension(BaseBean.gcEnterScene);
+			int sceneId=gcEnterScene.getSceneId();
+			System.out.println("role enterSence ["+sceneId+"]");
 			break;
 		}
 	}

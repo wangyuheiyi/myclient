@@ -12,6 +12,7 @@ import com.common.msg.MissionBean.MissionInfo;
 import com.common.msg.PlayerBean.CGCreateRole;
 import com.common.msg.PlayerBean.CGGetRoleList;
 import com.common.msg.PlayerBean.CGPlayerCheckLogin;
+import com.common.msg.PlayerBean.CGSelectRole;
 
 public class TestSendHandler extends ChannelOutboundHandlerAdapter{
 	@Override
@@ -45,11 +46,17 @@ public class TestSendHandler extends ChannelOutboundHandlerAdapter{
 			}else if(infos[0].equals("creatRole")){
 				CGCreateRole.Builder cgCreatRole=CGCreateRole.newBuilder();
 				cgCreatRole.setPlayerId(Long.parseLong(infos[1]));
-				cgCreatRole.setAvatar(Integer.parseInt(infos[2]));
+				cgCreatRole.setTemplateId(Integer.parseInt(infos[2]));
 				myMessage.setMessageCode(BaseMessage.MessageCode.CGCREATEROLE);
 				myMessage.setType(BaseMessage.Type.GLOBALMESSAGE);
 				myMessage.setExtension(BaseBean.cgCreateRole, cgCreatRole.build());
-				
+			}else if(infos[0].equals("selectRole")){
+				CGSelectRole.Builder cgSelectRole =CGSelectRole.newBuilder();
+				cgSelectRole.setPlayerId(Long.parseLong(infos[1]));
+				cgSelectRole.setRoleId(Long.parseLong(infos[2]));
+				myMessage.setMessageCode(BaseMessage.MessageCode.CGSELECTROLE);
+				myMessage.setType(BaseMessage.Type.GLOBALMESSAGE);
+				myMessage.setExtension(BaseBean.cgSelectRole, cgSelectRole.build());
 			}else if(infos[0].equals("send")){
 				TextWebSocketFrame tmessage=new TextWebSocketFrame((String)msg);
 				ctx.writeAndFlush(tmessage);
