@@ -9,6 +9,7 @@ import com.common.msg.PlayerBean.GCCreateRole;
 import com.common.msg.PlayerBean.GCEnterScene;
 import com.common.msg.PlayerBean.GCGetRoleList;
 import com.common.msg.PlayerBean.GCPlayerCheckLogin;
+import com.common.msg.PlayerBean.GCRoleReName;
 import com.common.msg.PlayerBean.HumanInfo;
 
 public class TestReadHandler extends SimpleChannelInboundHandler<Object>{
@@ -46,7 +47,13 @@ public class TestReadHandler extends SimpleChannelInboundHandler<Object>{
 		case GCENTERSCENE:
 			GCEnterScene gcEnterScene=baseBean.getExtension(BaseBean.gcEnterScene);
 			int sceneId=gcEnterScene.getSceneId();
-			System.out.println("role enterSence ["+sceneId+"]");
+			long roleId=gcEnterScene.getRoleId();
+			System.out.println("role enterSence ["+sceneId+"] roleId ["+roleId+"]");
+			ctx.channel().writeAndFlush("roleraname,"+roleId+",wangyuheiyi");
+			break;
+		case GCROLERENAME:
+			GCRoleReName gcRoleReName=baseBean.getExtension(BaseBean.gcRoleReName);
+			System.out.println("role rename ["+gcRoleReName.getRoleName()+"]");
 			break;
 		}
 	}
