@@ -5,12 +5,12 @@ import io.netty.channel.SimpleChannelInboundHandler;
 
 import com.common.msg.BaseBean;
 import com.common.msg.BaseBean.BaseMessage;
+import com.common.msg.DataBean.HumanInfo;
 import com.common.msg.PlayerBean.GCCreateRole;
 import com.common.msg.PlayerBean.GCEnterScene;
 import com.common.msg.PlayerBean.GCGetRoleList;
 import com.common.msg.PlayerBean.GCPlayerCheckLogin;
 import com.common.msg.PlayerBean.GCRoleReName;
-import com.common.msg.PlayerBean.HumanInfo;
 
 public class TestReadHandler extends SimpleChannelInboundHandler<Object>{
 
@@ -49,7 +49,7 @@ public class TestReadHandler extends SimpleChannelInboundHandler<Object>{
 			int sceneId=gcEnterScene.getSceneId();
 			long roleId=gcEnterScene.getRoleId();
 			System.out.println("role enterSence ["+sceneId+"] roleId ["+roleId+"]");
-			ctx.channel().writeAndFlush("roleraname,"+roleId+",wangyuheiyi");
+//			ctx.channel().writeAndFlush("roleraname,"+roleId+",wangyuheiyi");
 			break;
 		case GCROLERENAME:
 			GCRoleReName gcRoleReName=baseBean.getExtension(BaseBean.gcRoleReName);
