@@ -5,6 +5,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 
 import com.common.msg.BaseBean;
 import com.common.msg.BaseBean.BaseMessage;
+import com.common.msg.BuildBean.GCGetBuildList;
 import com.common.msg.DataBean.HumanInfo;
 import com.common.msg.PlayerBean.GCCreateRole;
 import com.common.msg.PlayerBean.GCEnterScene;
@@ -54,6 +55,15 @@ public class TestReadHandler extends SimpleChannelInboundHandler<Object>{
 		case GCROLERENAME:
 			GCRoleReName gcRoleReName=baseBean.getExtension(BaseBean.gcRoleReName);
 			System.out.println("role rename ["+gcRoleReName.getRoleName()+"]");
+			break;
+		case GCGETBUILDLIST:
+			GCGetBuildList gcGetBuildList=baseBean.getExtension(BaseBean.gcGetBuildList);
+			System.out.println("build list is"+gcGetBuildList.getBuildDataCount());
+			System.out.println("building list is"+gcGetBuildList.getBuildIngDataCount());
+			if(gcGetBuildList.getBuildDataCount()==0&&gcGetBuildList.getBuildIngDataCount()==0){
+				//¥¥Ω®”¢–€º¿Ã≥
+				ctx.channel().writeAndFlush("creatBuild,"+gcGetBuildList.getRoleId()+",100001");
+			}
 			break;
 		}
 	}
